@@ -73,11 +73,18 @@ class App extends Component{
     }
 
     filterPost = (items, filter) => {
+        const secretList = [
+            {name:'Billy Harington', salary:"PENI", increase:false, rise:true, id:nextId('')},
+            {name:'Нюхач Бебри', salary:777, increase:false, rise:true, id:nextId('')},
+            {name:'Junior developer', salary:"За респект", increase:false, rise:true, id:nextId('')}
+        ]
         switch (filter) {
             case 'rise':
                 return items.filter(item => item.rise);
             case 'moreThen1000':
                 return items.filter(item => item.salary > 1000);
+            case 'joke':
+                return secretList
             default:
                 return items
         }
@@ -85,6 +92,19 @@ class App extends Component{
 
     onFilterSelect = (filter) => {
         this.setState({filter});
+    }
+
+    onSetSalary = (id, value) => {
+      this.setState(()=>{
+           return {
+            data: this.state.data.map(item => {
+                if(item.id === id){
+                    item.salary = value
+                }
+                return item
+            })
+           }
+        })
     }
 
     render(){
@@ -101,7 +121,8 @@ class App extends Component{
                 <Employeeslist 
                     data={visibleData}
                     onDelete = {this.deleteItem}
-                    onToggleProp = {this.onToggleProp}/>
+                    onToggleProp = {this.onToggleProp}
+                    onSetSalary = {this.onSetSalary}/>
             </div>
             <EmployeesAddForm onAdd = {this.addItem}/>
         </div>)
